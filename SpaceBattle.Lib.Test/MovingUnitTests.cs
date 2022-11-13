@@ -8,7 +8,7 @@ public class moveObjectTests
     public void successfulObjectMove()
     {
         var mockObj = new Mock<IMovable>();
-        mockObj.SetupGet(x => x.position).Returns(new Vector(12, 5)).Verifiable();
+        mockObj.Setup(x => x.position).Returns(new Vector(12, 5)).Verifiable();
         mockObj.SetupGet(x => x.speed).Returns(new Vector(-7, 3)).Verifiable();
         var com = new MoveCommand(mockObj.Object);
         com.Execute();

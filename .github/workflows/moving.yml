@@ -26,4 +26,5 @@ jobs:
         run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
       - name: Codecov
         uses: codecov/codecov-action@v3
-        with: github-token: ${{ secrets.GITHUB_TOKEN }}
+        with: 
+          github-token: ${{ secrets.GITHUB_TOKEN }}

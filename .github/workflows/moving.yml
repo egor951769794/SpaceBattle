@@ -1,11 +1,18 @@
 name : WORKFLOW
 
-on : 
+on: 
   push:
     branches: ["move"]
   pull_request:
     branches: ["move"]
-    
+
+  workflow_dispatch: 
+    inputs:
+      reason:
+        description: "The reason for running the workflow"
+        required: true
+        default: 'Manual run'
+
 
 jobs:
   build:
@@ -23,6 +30,8 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
       - name: Test
-        run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+        run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
       - name: Codecov
         uses: codecov/codecov-action@v3
+        with: 
+          token: ${{ secrets.CODECOV_TOKEN }}

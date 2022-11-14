@@ -32,6 +32,7 @@ public class moveObjectTests
         var com = new MoveCommand(mockObj.Object);
         Assert.Throws<Exception>(() => com.Execute());
     }
+    [Fact]
     public void unsuccessfulObjectMoveUnableToChangePosition()
     {
         var mockObj = new Mock<IMovable>();

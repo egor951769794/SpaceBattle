@@ -1,12 +1,19 @@
 name : WORKFLOW
 
-on : 
+on: 
   push:
     branches: ["move"]
   pull_request:
     branches: ["move"]
-    
 
+  workflow_dispatch: 
+    inputs:
+      reason:
+        description: "The reason for running the workflow"
+        required: true
+        default: 'Manual run'
+
+        
 jobs:
   build:
  

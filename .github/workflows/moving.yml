@@ -1,11 +1,11 @@
 name : WORKFLOW
 
-# on: 
-#   push:
-#     branches: ["move"]
-#   pull_request:
-#     branches: ["move"]
 on: 
+  push:
+    branches: ["move"]
+  pull_request:
+    branches: ["move"]
+
   workflow_dispatch: 
     inputs:
       reason:
@@ -29,9 +29,13 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --configuration Release --no-restore
+      - name: Setup cov env
+        run: dotnet tool install --global dotnet-coverage
       - name: Test
-        run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+        run: dotnet-coverage collect 'dotnet test' -f xml  -o 'coverage.xml'
       - name: Codecov
         uses: codecov/codecov-action@v3
         with: 
-          token: ${{ secrets.CODECOV_TOKEN }}
+          token: 84583b03-1fa1-41c1-99d8-f89557dcfdba
+
+

@@ -30,7 +30,7 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
       - name: Test
-        run: dotnet test --verbosity normal /p:CollectCoverage=true
+        run: dotnet-coverage collect 'dotnet test' -f xml  -o 'coverage.xml'
       - name: Codecov
         uses: codecov/codecov-action@v3
         with: 

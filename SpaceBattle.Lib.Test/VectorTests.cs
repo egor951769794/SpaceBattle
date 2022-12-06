@@ -58,7 +58,7 @@ public class vectorTests
     {
         Vector v1 = new Vector(1, 2, 3);
         Vector v2 = new Vector(3, 2, 1);
-        Assert.False(v1 == v2);
+        Assert.True(v1 != v2);
     }
     [Fact]
     public void vectorsAreNotEqualDimensionsNotMatching()
@@ -73,6 +73,19 @@ public class vectorTests
         Vector v1 = new Vector(1, 2, 3);
         Vector v2 = new Vector(1, 2, 3);
         Assert.True(v1 == v2);
+    }
+    [Fact]
+    public void vectorsAreTheSameOne()
+    {
+        Vector v1 = new Vector(1, 2, 3);
+        Vector v2 = v1;
+        Assert.True(v1 == v2);
+    }
+    [Fact]
+    public void vectorsAreNotTheSameByNullValue()
+    {
+        Vector v1 = new Vector(1, 2, 3);
+        Assert.False(v1 is null);
     }
     [Fact]
     public void vectorsAreEqualByHashCode()
@@ -94,5 +107,30 @@ public class vectorTests
         Vector v1 = new Vector(1, 2, 3);
         double s = 3.5;
         Assert.False(v1.Equals(s));
+    }
+    [Fact]
+    public void successfulVectorToStringConversion()
+    {
+        Vector v1 = new Vector(1, 2, 3);
+        Assert.Equal(v1.ToString(), "Vector(1, 2, 3)");
+    }
+    [Fact]
+    public void successfulVectorComparisonOneIsBiggerThanOther()
+    {
+        Vector v1 = new Vector(1, 2, 3);
+        Vector v2 = new Vector(2, 3, 4);
+        Assert.True(v2 > v1);
+    }
+    public void successfulVectorComparisonOneIsLessThanOther()
+    {
+        Vector v1 = new Vector(3, 4, 5);
+        Vector v2 = new Vector(2, 3, 4);
+        Assert.True(v2 < v1);
+    }
+    [Fact]
+    public void getHashCodeThrowsException()
+    {
+        Vector v1 = new Vector(1, 2, 3);
+        Assert.Throws<Exception>(() => v1.GetHashCode());
     }
 }

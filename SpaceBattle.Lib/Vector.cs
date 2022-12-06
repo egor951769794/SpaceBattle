@@ -49,7 +49,7 @@ public class Vector
             return true;
         }
 
-        if (((object)v1 == null) || ((object)v2 == null))
+        if ((v1 is null) || (v2 is null))
         {
             return false;
         }

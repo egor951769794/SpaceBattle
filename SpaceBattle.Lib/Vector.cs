@@ -6,6 +6,7 @@ public class Vector
     public int this[int index]
     {
         get { return coordinates[index]; }
+        set {coordinates[index] = value; }
     }
     public Vector(params int[] coordinates)
     {

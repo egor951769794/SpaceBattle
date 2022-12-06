@@ -121,6 +121,7 @@ public class vectorTests
         Vector v2 = new Vector(2, 3, 4);
         Assert.True(v2 > v1);
     }
+    [Fact]
     public void successfulVectorComparisonOneIsLessThanOther()
     {
         Vector v1 = new Vector(3, 4, 5);

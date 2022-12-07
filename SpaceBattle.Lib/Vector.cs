@@ -48,34 +48,11 @@ public class Vector
         {
             return true;
         }
-
-        if ((v1 is null) || (v2 is null))
-        {
-            return false;
-        }
         return v1!.Size == v2!.Size && v1!.coordinates.SequenceEqual(v2!.coordinates);
     }
     public static bool operator !=(Vector v1, Vector v2)
     {
         return !(v1 == v2);
-    }
-    public static bool operator >(Vector v1, Vector v2)
-    {
-        int vsize = (v1.Size < v2.Size) ? v1.Size : v2.Size;
-        bool result = true;
-        for (int i = 0; i < vsize; i++) result = (result) && (v1.coordinates[i] >= v2.coordinates[i]);
-        result = (result) && !(v1 == v2);
-        result = (result) && !(v1.Size < v2.Size);
-        return result;
-    }
-    public static bool operator <(Vector v1, Vector v2)
-    {
-        int vsize = (v1.Size < v2.Size) ? v1.Size : v2.Size;
-        bool result = true;
-        for (int i = 0; i < vsize; i++) result = result && v1.coordinates[i] <= v2.coordinates[i];
-        result = result && !(v1 == v2);
-        result = result && !(v1.Size > v2.Size);
-        return result;
     }
 
     public override bool Equals(object? obj)

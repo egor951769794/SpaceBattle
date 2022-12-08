@@ -1,10 +1,7 @@
 name : WORKFLOW
 
 on: 
-  push:
-    branches: ["move"]
-  pull_request:
-    branches: ["move"]
+  [push]:
 
   workflow_dispatch: 
     inputs:

@@ -112,7 +112,7 @@ public class vectorTests
     public void successfulVectorToStringConversion()
     {
         Vector v1 = new Vector(1, 2, 3);
-        Assert.Equal(v1.ToString(), "Vector(1, 2, 3)");
+        Assert.Equal("Vector(1, 2, 3)", v1.ToString());
     }
     [Fact]
     public void getHashCodeThrowsException()

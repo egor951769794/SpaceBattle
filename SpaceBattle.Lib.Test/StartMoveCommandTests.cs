@@ -31,4 +31,22 @@ public class StartMoveCommandTests
         startMoveCommand.Execute();
         InitMock.Verify();
     }
+    [Fact]
+    public void unsuccesfulStartMoveCommandUnableToGetObjectToMove()
+    {
+        var InitMock = new Mock<IStartingMoveCommand>();
+        InitMock.SetupGet(a => a.objToMove).Throws<Exception>().Verifiable();
+        InitMock.SetupGet(a => a.order).Returns(new Dictionary<string, object>() { { "speed", new Vector(It.IsAny<int>(), It.IsAny<int>()) } }).Verifiable();
+        ICommand startMoveCommand = new StartMoveCommand(InitMock.Object);
+        Assert.Throws<Exception>(() => startMoveCommand.Execute());
+    }
+    [Fact]
+    public void unsuccesfulStartMoveCommandUnableToGetObjectSpeed()
+    {
+        var InitMock = new Mock<IStartingMoveCommand>();
+        InitMock.SetupGet(a => a.objToMove).Returns(new Mock<UObject>().Object).Verifiable();
+        InitMock.SetupGet(a => a.order).Throws<Exception>().Verifiable();
+        ICommand startMoveCommand = new StartMoveCommand(InitMock.Object);
+        Assert.Throws<Exception>(() => startMoveCommand.Execute());
+    }
 }

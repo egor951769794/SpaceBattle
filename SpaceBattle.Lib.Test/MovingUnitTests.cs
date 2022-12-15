@@ -43,23 +43,3 @@ public class moveObjectTests
     }
 }
 
-// class SumOfTwo : IStrategy
-// {
-//     public object Execute(params object[] args)
-//     {
-//         int a = (int) args[0];
-//         int b = (int) args[1];
-//         return a + b;
-//     }
-// }
-
-// public class IoCTests
-// {
-//     [Fact]
-//     public void Test1()
-//     {
-//         IoC.Resolve<ICommand>("IoC.Add", "Game.SumOfTwo", new SumOfTwo()).Execute();
-//         int result = IoC.Resolve<int>("Game.SumOfTwo", 1, 2);
-//         Assert.Equal(3, result);
-//     }
-// }

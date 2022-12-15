@@ -12,7 +12,7 @@ public class StartMoveCommandTests
 
         IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
         
-        var mockCommand = new Mock<SpaceBattle.Lib.ICommand>();
+        var mockCommand = new Mock<ICommand>();
         mockCommand.Setup(x => x.Execute());
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.SetProperty", (object[] args) => new Mock<ICommand>().Object).Execute();

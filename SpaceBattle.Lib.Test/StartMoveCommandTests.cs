@@ -4,44 +4,49 @@ using Hwdtech.Ioc;
 
 namespace SpaceBattle.Lib.Test;
 
-public class StartMoveCommandTests {
-
-    public StartMoveCommandTests() {
-        
+public class StartMoveCommandTests
+{
+    public StartMoveCommandTests()
+    {
         new InitScopeBasedIoCImplementationCommand().Execute();
 
         IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
-
-        var mockCommand = new Mock<ICommand>();
+        
+        var mockCommand = new Mock<SpaceBattle.Lib.ICommand>();
         mockCommand.Setup(x => x.Execute());
 
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "NotExisting.GetSomePropertyMethod", (object[] args) => new Mock<UObject>()).Execute();
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.UObj.SetProperty", (object[] args) => mockCommand.Object).Execute();
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.UObj.GetProperty", (object[] args) => new Mock<ICommand>().Object).Execute();
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.Movement", (object[] args) => mockCommand.Object).Execute();
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Queue.Push", (object[] args) => mockCommand.Object).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.SetProperty", (object[] args) => new Mock<ICommand>().Object).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.Movement", (object[] args) => new Mock<ICommand>().Object).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Queue.Push", (object[] args) => new Mock<ICommand>().Object).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Queue.Main", (object[] args) => new Queue<ICommand>()).Execute();
-
     }
 
     [Fact]
-
-    public void success() 
+    public void succesfulStartMoveCommand()
     {
-        
-        var newOrder = new Mock<IStartingMoveCommand>();
-        var obj = new Mock<UObject>();
-
-        newOrder.SetupGet(x => x.objToMove).Returns(obj.Object).Verifiable();
-        newOrder.SetupGet(x => x.order).Returns(new Dictionary<string, object> {
-            // {"id", 0},
-            {"speed", new Vector(0, 0)},
-        }).Verifiable();
-
-        ICommand startMoveCommand = new StartMoveCommand(newOrder.Object);
-
+        var InitMock = new Mock<IStartingMoveCommand>();
+        InitMock.SetupGet(a => a.objToMove).Returns(new Mock<UObject>().Object).Verifiable();
+        InitMock.SetupGet(a => a.order).Returns(new Dictionary<string, object>() { { "speed", new Vector(It.IsAny<int>(), It.IsAny<int>()) } }).Verifiable();
+        ICommand startMoveCommand = new StartMoveCommand(InitMock.Object);
         startMoveCommand.Execute();
-
-        newOrder.VerifyAll();
+        InitMock.Verify();
+    }
+    [Fact]
+    public void unsuccesfulStartMoveCommandUnableToGetObjectToMove()
+    {
+        var InitMock = new Mock<IStartingMoveCommand>();
+        InitMock.SetupGet(a => a.objToMove).Throws<Exception>().Verifiable();
+        InitMock.SetupGet(a => a.order).Returns(new Dictionary<string, object>() { { "speed", new Vector(It.IsAny<int>(), It.IsAny<int>()) } }).Verifiable();
+        ICommand startMoveCommand = new StartMoveCommand(InitMock.Object);
+        Assert.Throws<Exception>(() => startMoveCommand.Execute());
+    }
+    [Fact]
+    public void unsuccesfulStartMoveCommandUnableToGetObjectSpeed()
+    {
+        var InitMock = new Mock<IStartingMoveCommand>();
+        InitMock.SetupGet(a => a.objToMove).Returns(new Mock<UObject>().Object).Verifiable();
+        InitMock.SetupGet(a => a.order).Throws<Exception>().Verifiable();
+        ICommand startMoveCommand = new StartMoveCommand(InitMock.Object);
+        Assert.Throws<Exception>(() => startMoveCommand.Execute());
     }
 }

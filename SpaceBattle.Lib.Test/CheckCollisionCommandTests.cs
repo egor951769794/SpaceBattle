@@ -20,14 +20,9 @@ public class CheckCollisionCommandTests
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.Collision.Check", (object[] args) => (object) true).Execute();
         ICommand checkCollisionCommand = new CheckCollisionCommand(MockObj1.Object, MockObj2.Object);
-        try
-        {
-            checkCollisionCommand.Execute();
-        }
-        catch (Exception e)
-        {
-            Assert.Equal(String.Format("collision : [{0}, {1}]", MockObj1.Object.ToString(), MockObj2.Object.ToString()), e.Message);
-        }
+        
+        Assert.Throws<Exception>(() => checkCollisionCommand.Execute());
+        return;
     }
     [Fact]
     public void successfulCollisionCheckObjectsNotCollided()

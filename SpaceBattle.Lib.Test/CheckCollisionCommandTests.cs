@@ -12,7 +12,7 @@ public class CheckCollisionCommandTests
         IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
 
     }
-    [Fact]
+    [Fact(Timeout = 1000)]
     public void successfulCollisionCheckObjectsCollided()
     {
         var MockObj1 = new Mock<UObject>();
@@ -24,7 +24,7 @@ public class CheckCollisionCommandTests
         Assert.Throws<Exception>(() => checkCollisionCommand.Execute());
         return;
     }
-    [Fact]
+    [Fact(Timeout = 1000)]
     public void successfulCollisionCheckObjectsNotCollided()
     {
         var MockObj1 = new Mock<UObject>();

@@ -14,9 +14,6 @@ public class CheckCollisionCommand : ICommand
     public void Execute()
     {
         bool collided = IoC.Resolve<bool>("General.Collision.Check", obj1, obj2);
-        if (collided) 
-        {
-            throw new Exception(String.Format("collision : [{0}, {1}]", obj1.ToString(), obj2.ToString()));
-        }
+        if (collided) IoC.Resolve<ICommand>("Commands.CollisionHandle", obj1, obj2).Execute();
     }
 }

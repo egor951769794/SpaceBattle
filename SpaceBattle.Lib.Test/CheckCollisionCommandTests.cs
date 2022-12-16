@@ -10,9 +10,10 @@ public class CheckCollisionCommandTests
     {
         new InitScopeBasedIoCImplementationCommand().Execute();
         IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.CollisionHandle", (object[] args) => new Mock<ICommand>().Object).Execute();
 
     }
-    [Fact(Timeout = 1000)]
+    [Fact]
     public void successfulCollisionCheckObjectsCollided()
     {
         var MockObj1 = new Mock<UObject>();
@@ -20,11 +21,8 @@ public class CheckCollisionCommandTests
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.Collision.Check", (object[] args) => (object) true).Execute();
         ICommand checkCollisionCommand = new CheckCollisionCommand(MockObj1.Object, MockObj2.Object);
-        
-        Assert.Throws<Exception>(() => checkCollisionCommand.Execute());
-        return;
     }
-    [Fact(Timeout = 1000)]
+    [Fact]
     public void successfulCollisionCheckObjectsNotCollided()
     {
         var MockObj1 = new Mock<UObject>();
@@ -32,5 +30,21 @@ public class CheckCollisionCommandTests
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.Collision.Check", (object[] args) => (object) false).Execute();
         ICommand checkCollisionCommand = new CheckCollisionCommand(MockObj1.Object, MockObj2.Object);
+    }
+    [Fact]
+    public void unsuccessfulCollisionCheckUnableToGetFirstObjectData()
+    {
+        var MockObj2 = new Mock<UObject>();
+
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.Collision.Check", (object[] args) => (object) false).Execute();
+        ICommand checkCollisionCommand = new CheckCollisionCommand(null!, MockObj2.Object);
+    }
+    [Fact]
+    public void unsuccessfulCollisionCheckUnableToGetSecondObjectData()
+    {
+        var MockObj1 = new Mock<UObject>();
+
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.Collision.Check", (object[] args) => (object) false).Execute();
+        ICommand checkCollisionCommand = new CheckCollisionCommand(MockObj1.Object, null!);
     }
 }

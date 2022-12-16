@@ -21,6 +21,8 @@ public class CheckCollisionCommandTests
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.Collision.Check", (object[] args) => (object) true).Execute();
         ICommand checkCollisionCommand = new CheckCollisionCommand(MockObj1.Object, MockObj2.Object);
+
+        checkCollisionCommand.Execute();
     }
     [Fact]
     public void successfulCollisionCheckObjectsNotCollided()
@@ -30,6 +32,8 @@ public class CheckCollisionCommandTests
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.Collision.Check", (object[] args) => (object) false).Execute();
         ICommand checkCollisionCommand = new CheckCollisionCommand(MockObj1.Object, MockObj2.Object);
+
+        checkCollisionCommand.Execute();
     }
     [Fact]
     public void unsuccessfulCollisionCheckUnableToGetFirstObjectData()
@@ -38,6 +42,8 @@ public class CheckCollisionCommandTests
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.Collision.Check", (object[] args) => (object) false).Execute();
         ICommand checkCollisionCommand = new CheckCollisionCommand(null!, MockObj2.Object);
+
+        checkCollisionCommand.Execute();
     }
     [Fact]
     public void unsuccessfulCollisionCheckUnableToGetSecondObjectData()
@@ -46,5 +52,7 @@ public class CheckCollisionCommandTests
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.Collision.Check", (object[] args) => (object) false).Execute();
         ICommand checkCollisionCommand = new CheckCollisionCommand(MockObj1.Object, null!);
+
+        checkCollisionCommand.Execute();
     }
 }

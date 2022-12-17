@@ -35,24 +35,4 @@ public class CheckCollisionCommandTests
 
         checkCollisionCommand.Execute();
     }
-    [Fact]
-    public void unsuccessfulCollisionCheckUnableToGetFirstObjectData()
-    {
-        var MockObj2 = new Mock<UObject>();
-
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.Collision.Check", (object[] args) => (object) false).Execute();
-        ICommand checkCollisionCommand = new CheckCollisionCommand(null!, MockObj2.Object);
-
-        checkCollisionCommand.Execute();
-    }
-    [Fact]
-    public void unsuccessfulCollisionCheckUnableToGetSecondObjectData()
-    {
-        var MockObj1 = new Mock<UObject>();
-
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.Collision.Check", (object[] args) => (object) false).Execute();
-        ICommand checkCollisionCommand = new CheckCollisionCommand(MockObj1.Object, null!);
-
-        checkCollisionCommand.Execute();
-    }
 }

@@ -17,7 +17,7 @@ public class CommandHandler : ICommand
             c.Execute();
         } catch (Exception e)
         {
-            IStrategy exceptionHandler = (IStrategy) IoC.Resolve<IStrategy>("Strategies.FindExceptionHandler").Run(c, e);
+            IStrategy exceptionHandler = (IStrategy) (IoC.Resolve<IStrategy>("Strategies.FindExceptionHandler").Run(c, e));
             exceptionHandler.Run();
         }
     }

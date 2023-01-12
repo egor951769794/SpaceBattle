@@ -13,3 +13,7 @@ CHECK_COLLISION_COMMAND [![codecov](https://codecov.io/github/egor951769794/Spac
 ...
 
 MACRO_TASK1 [![codecov](https://codecov.io/github/egor951769794/SpaceBattle/branch/macro_task1/graph/badge.svg?token=V44VRLBEG8)](https://codecov.io/github/egor951769794/SpaceBattle)
+
+...
+
+FIND_EXCEPTION_HANDLER [![codecov](https://codecov.io/github/egor951769794/SpaceBattle/branch/find_exception_handler/graph/badge.svg?token=V44VRLBEG8)](https://codecov.io/github/egor951769794/SpaceBattle)

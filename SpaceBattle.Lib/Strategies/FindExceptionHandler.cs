@@ -5,8 +5,11 @@ public class FindExceptionHandler : IStrategy
 {
     public object Run(object[] args)
     {
-        var handlers = IoC.Resolve<IDictionary<ICommand, IDictionary<Exception, IStrategy>>>("Exceptions.Handlers");
-        IStrategy handler = handlers[(ICommand)args[0]][(Exception)args[1]];
+        string cmdName = IoC.Resolve<string>("Commands.ToString", (ICommand)args[0]);
+        string excName = ((Exception)args[1]).Message;
+
+        var handlers = IoC.Resolve<IDictionary<string, IDictionary<string, IStrategy>>>("Exceptions.Handlers");
+        IStrategy handler = handlers[cmdName][excName];
         return handler;
     }
 }

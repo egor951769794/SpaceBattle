@@ -12,32 +12,45 @@ public class CommandHandlerTests
 
         IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
 
+        var mockHandlerStrategy = new Mock<IStrategy>();
+        mockHandlerStrategy.Setup(x => x.Run()).Returns("handler executed");
+
         var mockHandler = new Mock<IStrategy>();
-        mockHandler.Setup(x => x.Run(It.IsAny<object[]>())).Returns(new Mock<IStrategy>().Object);
+        mockHandler.Setup(x => x.Run(It.IsAny<object[]>())).Returns(mockHandlerStrategy.Object);
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Strategies.FindExceptionHandler", (object[] args) => 
         mockHandler.Object
         ).Execute();
+
+        var mockHandlers = new Mock<IDictionary<string, IDictionary<string, IStrategy>>>();
+        mockHandlers.Setup(x => x["MoveCommand"][It.IsAny<string>()]).Returns(mockHandlerStrategy.Object);
+        
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Exceptions.Handlers", (object[] args) =>
+            mockHandlers.Object
+        ).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.ToString", (object[] args) => "MoveCommand").Execute();
     }
     [Fact]
-    public void successfulHandlerInit()
+    public void regularCommandThrowsException()
     {
-        var mockCmd = new Mock<ICommand>();
-        CommandExceptionsHandler mockCmdHandler = new CommandExceptionsHandler(mockCmd.Object);
-    }
-    [Fact]
-    public void successfulHandlerExecutingCommand()
-    {
-        var mockCmd = new Mock<ICommand>();
-        CommandExceptionsHandler mockCmdHandler = new CommandExceptionsHandler(mockCmd.Object);
-        mockCmdHandler.Execute();
+        var badObjToMove = new Mock<IMovable>();
+        badObjToMove.SetupProperty(x => x.position);
+        badObjToMove.SetupGet(x => x.speed).Throws<Exception>();
+        badObjToMove.Object.position = new Vector(12, -7);
+
+        ICommand moveCmd = new MoveCommand(badObjToMove.Object);
+        Assert.Throws<Exception>(() => moveCmd.Execute());
     }
     [Fact]
     public void successfulHandlerCatchesException()
     {
-        var mockCmd = new Mock<ICommand>();
-        mockCmd.Setup(x => x.Execute()).Throws<Exception>();
-        CommandExceptionsHandler cmdHandler = new CommandExceptionsHandler(mockCmd.Object);
-        cmdHandler.Execute();
+        var badObjToMove = new Mock<IMovable>();
+        badObjToMove.SetupProperty(x => x.position);
+        badObjToMove.SetupGet(x => x.speed).Throws<Exception>();
+        badObjToMove.Object.position = new Vector(12, -7);
+
+        ICommand moveCmd = new MoveCommand(badObjToMove.Object);
+        CommandExceptionsHandler moveCmdExc = new CommandExceptionsHandler(moveCmd);
+        moveCmdExc.Execute();
     }
 }

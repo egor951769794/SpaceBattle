@@ -6,6 +6,10 @@ public class Vector
     public int this[int index]
     {
         get { return coordinates[index]; }
+<<<<<<< HEAD
+=======
+        set {coordinates[index] = value; }
+>>>>>>> main
     }
     public Vector(params int[] coordinates)
     {
@@ -47,17 +51,21 @@ public class Vector
         {
             return true;
         }
+<<<<<<< HEAD
 
         if (((object)v1 == null) || ((object)v2 == null))
         {
             return false;
         }
+=======
+>>>>>>> main
         return v1!.Size == v2!.Size && v1!.coordinates.SequenceEqual(v2!.coordinates);
     }
     public static bool operator !=(Vector v1, Vector v2)
     {
         return !(v1 == v2);
     }
+<<<<<<< HEAD
     public static bool operator >(Vector v1, Vector v2)
     {
         int vsize = (v1.Size < v2.Size) ? v1.Size : v2.Size;
@@ -76,10 +84,16 @@ public class Vector
         result = result && !(v1.Size > v2.Size);
         return result;
     }
+=======
+>>>>>>> main
 
     public override bool Equals(object? obj)
     {
         return obj is Vector;
     }
     public override int GetHashCode() => throw new Exception();
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> main

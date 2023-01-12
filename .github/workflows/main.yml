@@ -2,9 +2,11 @@ name : WORKFLOW
 
 on: 
   push:
-    branches: ["move"]
+    branches:
+      - '**'
   pull_request:
-    branches: ["move"]
+      branches:
+      - '**'
 
   workflow_dispatch: 
     inputs:
@@ -29,8 +31,10 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --configuration Release --no-restore
+      - name: Setup cov env
+        run: dotnet tool install --global dotnet-coverage
       - name: Test
-        run: dotnet test --verbosity normal /p:CollectCoverage=true
+        run: dotnet-coverage collect 'dotnet test' -f xml  -o 'coverage.xml'
       - name: Codecov
         uses: codecov/codecov-action@v3
         with: 

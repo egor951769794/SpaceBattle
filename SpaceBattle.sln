@@ -1,34 +1,3 @@
-<<<<<<< HEAD
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceBattle.Lib", "SpaceBattle.Lib\SpaceBattle.Lib.csproj", "{07825D49-EB10-4B42-8A0E-84DB57690517}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceBattle.Lib.Test", "SpaceBattle.Lib.Test\SpaceBattle.Lib.Test.csproj", "{446F216F-F7D7-46D7-8715-C157C4107641}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{07825D49-EB10-4B42-8A0E-84DB57690517}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07825D49-EB10-4B42-8A0E-84DB57690517}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07825D49-EB10-4B42-8A0E-84DB57690517}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07825D49-EB10-4B42-8A0E-84DB57690517}.Release|Any CPU.Build.0 = Release|Any CPU
-		{446F216F-F7D7-46D7-8715-C157C4107641}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{446F216F-F7D7-46D7-8715-C157C4107641}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{446F216F-F7D7-46D7-8715-C157C4107641}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{446F216F-F7D7-46D7-8715-C157C4107641}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-EndGlobal
-=======
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
@@ -56,4 +25,3 @@ Global
 		{B9818807-46FC-4083-95F1-260F4B18D84E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
->>>>>>> main

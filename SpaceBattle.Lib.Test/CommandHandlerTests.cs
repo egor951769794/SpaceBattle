@@ -23,15 +23,13 @@ public class CommandHandlerTests
     public void successfulHandlerInit()
     {
         var mockCmd = new Mock<ICommand>();
-        var mockExc = new Mock<Exception>();
-        CommandHandler mockCmdHandler = new CommandHandler(mockCmd.Object, mockExc.Object);
+        CommandExceptionsHandler mockCmdHandler = new CommandExceptionsHandler(mockCmd.Object);
     }
     [Fact]
     public void successfulHandlerExecutingCommand()
     {
         var mockCmd = new Mock<ICommand>();
-        var mockExc = new Mock<Exception>();
-        CommandHandler mockCmdHandler = new CommandHandler(mockCmd.Object, mockExc.Object);
+        CommandExceptionsHandler mockCmdHandler = new CommandExceptionsHandler(mockCmd.Object);
         mockCmdHandler.Execute();
     }
     [Fact]
@@ -39,8 +37,7 @@ public class CommandHandlerTests
     {
         var mockCmd = new Mock<ICommand>();
         mockCmd.Setup(x => x.Execute()).Throws<Exception>();
-        var mockExc = new Mock<Exception>();
-        CommandHandler cmdHandler = new CommandHandler(mockCmd.Object, mockExc.Object);
+        CommandExceptionsHandler cmdHandler = new CommandExceptionsHandler(mockCmd.Object);
         cmdHandler.Execute();
     }
 }

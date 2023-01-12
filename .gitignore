@@ -352,8 +352,4 @@ MigrationBackup/
 .ionide/
 
 bin/
-<<<<<<< HEAD
 obj/
-=======
-obj/
->>>>>>> main

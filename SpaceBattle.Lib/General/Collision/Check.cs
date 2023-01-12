@@ -12,14 +12,14 @@ public class Check : IStrategy
 
     public object Run(object[] args)
     {
-        Vector property1 = IoC.Resolve<Vector>("General.Collision.GetCollisionPropertiesVector", obj1);
-        Vector property2 = IoC.Resolve<Vector>("General.Collision.GetCollisionPropertiesVector", obj2);
+        Vector obj1Properties = IoC.Resolve<Vector>("General.Collision.GetCollisionPropertiesVector", obj1);
+        Vector obj2Properties = IoC.Resolve<Vector>("General.Collision.GetCollisionPropertiesVector", obj2);
 
-        Vector properties = IoC.Resolve<Vector>("General.Collision.GetCollisionPropertiesPrepared", property1, property2);
+        Vector properties = IoC.Resolve<Vector>("General.Collision.GetCollisionPropertiesPrepared", obj1Properties, obj2Properties);
 
         BinaryTree<float> tree = IoC.Resolve<BinaryTree<float>>("General.Collision.BuildSolutionTree");
 
-        bool collided = IoC.Resolve<bool>("General.Collision.SolutionTreeTraverse", properties);
+        bool collided = IoC.Resolve<bool>("General.Collision.TreeTraverse", tree, properties);
 
         return collided;
     }

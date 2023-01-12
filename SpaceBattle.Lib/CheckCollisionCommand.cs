@@ -13,7 +13,6 @@ public class CheckCollisionCommand : ICommand
 
     public void Execute()
     {
-        bool collided = IoC.Resolve<bool>("General.Collision.Check", obj1, obj2);
-        if (collided) IoC.Resolve<ICommand>("Commands.CollisionHandle", obj1, obj2).Execute();
+        if (IoC.Resolve<bool>("General.Collision.Check", obj1, obj2)) throw new Exception("Exceptions.Collision.Collided");
     }
 }

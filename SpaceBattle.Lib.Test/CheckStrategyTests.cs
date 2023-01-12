@@ -13,7 +13,7 @@ public class CheckStrategyTests
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.Collision.GetCollisionPropertiesVector", (object[] args) => new Mock<Vector>().Object).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.Collision.GetCollisionPropertiesPrepared", (object[] args) => new Mock<Vector>().Object).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.Collision.BuildSolutionTree", (object[] args) => new Mock<BinaryTree<float>>().Object).Execute();
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.Collision.SolutionTreeTraverse", (object[] args) => (object) new bool()).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.Collision.TreeTraverse", (object[] args) => (object) new bool()).Execute();
     }
     [Fact]
     public void successfulCheckStrategyRun()

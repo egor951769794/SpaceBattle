@@ -10,7 +10,7 @@ public class CheckCollisionCommandTests
     {
         new InitScopeBasedIoCImplementationCommand().Execute();
         IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.CollisionHandle", (object[] args) => new Mock<ICommand>().Object).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Exceptions.Collision.Collided", (object[] args) => new Mock<ICommand>().Object).Execute();
 
     }
     [Fact]
@@ -22,7 +22,7 @@ public class CheckCollisionCommandTests
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.Collision.Check", (object[] args) => (object) true).Execute();
         ICommand checkCollisionCommand = new CheckCollisionCommand(MockObj1.Object, MockObj2.Object);
 
-        checkCollisionCommand.Execute();
+        Assert.Throws<Exception>(() => checkCollisionCommand.Execute());
     }
     [Fact]
     public void successfulCollisionCheckObjectsNotCollided()

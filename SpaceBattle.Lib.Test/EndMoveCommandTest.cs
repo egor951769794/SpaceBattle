@@ -6,6 +6,7 @@ namespace SpaceBattleTest;
 
 public class EndMoveCommandTests
 {
+    [Fact]
     public void EndMoveCommandTest()
     {
         new InitScopeBasedIoCImplementationCommand().Execute();

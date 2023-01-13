@@ -19,7 +19,6 @@ public class StartMoveCommandTests
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Adapters.IMovable", (object[] args) => new Mock<IMovable>().Object).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.MoveCommand", (object[] args) => new Mock<ICommand>().Object).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Queue.Push", (object[] args) => new Mock<ICommand>().Object).Execute();
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Queue.Main", (object[] args) => new Queue<ICommand>()).Execute();
     }
 
     [Fact]

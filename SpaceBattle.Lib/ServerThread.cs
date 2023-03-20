@@ -1,12 +1,10 @@
 namespace SpaceBattle.Lib;
 public class ServerThread
 {
-    public Thread thread
-    {
-        get; private set;
-    }
-    ReceiverAdapter queue;
+    public Thread thread;
+    public ReceiverAdapter queue;
     bool stop = false;
+    public bool runned = false;
     Action strategy;
     Action finishingStrategy;
 
@@ -18,8 +16,7 @@ public class ServerThread
 
     internal void HandleCommand()
     {
-        var cmd = queue.Receive();
-        cmd.Execute();
+        queue.Receive().Execute();
     }
 
     public ServerThread(ReceiverAdapter queue)
@@ -34,11 +31,14 @@ public class ServerThread
         {
 
         };
-
+    
         thread = new Thread(() =>
         {
-            while (!stop || !queue.isEmpty())
+            while (!stop && !queue.isEmpty())
+            {
                 strategy();
+                runned = true;
+            }
         });
     }
 

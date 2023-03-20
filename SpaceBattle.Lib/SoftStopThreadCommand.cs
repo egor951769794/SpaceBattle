@@ -2,7 +2,7 @@ using Hwdtech;
 
 
 namespace SpaceBattle.Lib;
-class SoftStopThreadCommand : ICommand
+public class SoftStopThreadCommand : ICommand
 {
     ServerThread stoppingThread;
     Action finishingTask;

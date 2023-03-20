@@ -1,5 +1,5 @@
 namespace SpaceBattle.Lib;
-class UpdateBehaviourCommand : ICommand
+public class UpdateBehaviourCommand : ICommand
 {
     Action behaviour;
     ServerThread thread;

@@ -1,5 +1,5 @@
 namespace SpaceBattle.Lib;
-class HardStopThreadCommand : ICommand
+public class HardStopThreadCommand : ICommand
 {
     ServerThread stoppingThread;
     Action finishingTask;

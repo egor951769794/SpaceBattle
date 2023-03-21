@@ -4,7 +4,6 @@ public class ServerThread
     public Thread thread;
     public ReceiverAdapter queue;
     bool stop = false;
-    public bool runned = false;
     Action strategy;
     Action finishingStrategy;
 
@@ -37,7 +36,6 @@ public class ServerThread
             while (!stop && !queue.isEmpty())
             {
                 strategy();
-                runned = true;
             }
         });
     }

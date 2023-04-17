@@ -29,7 +29,7 @@ public class UpdateBehaviourTests
 
         new UpdateBehaviourCommand(st, HandleNothing).Execute();
 
-        st.Execute();
+        st.Start();
 
         Thread.Sleep(1);
         Assert.True(objToMove.Object.position == new Vector(12, 5));

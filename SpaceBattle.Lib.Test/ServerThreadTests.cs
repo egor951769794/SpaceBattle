@@ -52,8 +52,6 @@ public class ServerThreadTests
     [Fact]
     public void successfulThreadStart()
     {
-        var queue = new BlockingCollection<ICommand>();
-        
         var objToMove = new Mock<IMovable>();
         objToMove.SetupProperty(x => x.position);
         objToMove.SetupGet(x => x.speed).Returns(new Vector(-7, 3));

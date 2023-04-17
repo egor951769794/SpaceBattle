@@ -15,19 +15,12 @@ public class HardStopThreadCommand : ICommand
     }
     public void Execute()
     {
-        if (Thread.CurrentThread == stoppingThread.thread)
-        {
-            UpdateBehaviourCommand updateFinishingBehaviour = new UpdateBehaviourCommand(this.stoppingThread, this.finishingTask);
-            StopThreadCommand stopThread = new StopThreadCommand(this.stoppingThread);
+        UpdateFinishBehaviourCommand updateFinishingBehaviour = new UpdateFinishBehaviourCommand(this.stoppingThread, this.finishingTask);
+        StopThreadCommand stopThread = new StopThreadCommand(this.stoppingThread);
 
-            int threadId = IoC.Resolve<int>("Threading.GetThreadId", this.stoppingThread);
+        int threadId = IoC.Resolve<int>("Threading.GetThreadId", this.stoppingThread);
 
-            IoC.Resolve<ICommand>("Threading.SendCommand", threadId, updateFinishingBehaviour).Execute();
-            IoC.Resolve<ICommand>("Threading.SendCommand", threadId, stopThread).Execute();
-        }
-        else
-        {
-            throw new Exception();
-        }
+        IoC.Resolve<ICommand>("Threading.SendCommand", threadId, updateFinishingBehaviour).Execute();
+        IoC.Resolve<ICommand>("Threading.SendCommand", threadId, stopThread).Execute();
     }
 }

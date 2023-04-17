@@ -14,26 +14,19 @@ public class SoftStopThreadCommand : ICommand
     
     public void Execute()
     {
-        if (Thread.CurrentThread == stoppingThread.thread)
+        Action softStopStrategy = () => 
         {
-            Action softStopStrategy = () => 
+            if (stoppingThread.queue.isEmpty())
             {
-                if (stoppingThread.queue.isEmpty())
-                {
-                    int threadId = IoC.Resolve<int>("Threading.GetThreadId", this.stoppingThread);
-                    ICommand hardStopThread = IoC.Resolve<ICommand>("Threading.HardStopThread", threadId, this.finishingTask);
-                    IoC.Resolve<ICommand>("Threading.SendCommand", hardStopThread).Execute();
-                }
-                else
-                {
-                    stoppingThread.HandleCommand();
-                }
-            };
-            new UpdateBehaviourCommand(stoppingThread, softStopStrategy).Execute();
-        }
-        else
-        {
-            throw new Exception();
-        }
+                int threadId = IoC.Resolve<int>("Threading.GetThreadId", this.stoppingThread);
+                ICommand hardStopThread = IoC.Resolve<ICommand>("Threading.HardStopThread", threadId, this.finishingTask);
+                IoC.Resolve<ICommand>("Threading.SendCommand", hardStopThread).Execute();
+            }
+            else
+            {
+                stoppingThread.HandleCommand();
+            }
+        };
+        new UpdateBehaviourCommand(stoppingThread, softStopStrategy).Execute();
     }
 }

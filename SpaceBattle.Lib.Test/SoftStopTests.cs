@@ -99,7 +99,7 @@ public class SoftStopTests
 
         IoC.Resolve<ICommand>("Threading.SendCommand", 2, cmd).Execute();
 
-        Thread.Sleep(50);
+        Thread.Sleep(1);
         Assert.True(objToMove.Object.position == new Vector(5, 8));
     }
 }

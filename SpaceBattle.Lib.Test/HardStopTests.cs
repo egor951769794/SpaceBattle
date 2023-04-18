@@ -98,5 +98,7 @@ public class HardStopTests
         IoC.Resolve<ICommand>("Threading.SendCommand", 1, releaseThread).Execute();
 
         Assert.False(objToMove.Object.position == new Vector(5, 8));
+
+        waiter.WaitOne();
     }
 }

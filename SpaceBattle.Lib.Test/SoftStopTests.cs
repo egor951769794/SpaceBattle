@@ -101,6 +101,7 @@ public class SoftStopTests
                 () =>
                 {
                     waiter.Set();
+                    Thread.Sleep(1000);
                 }
             )
         );

@@ -3,7 +3,7 @@ public class ServerThread
 {
     public Thread thread { get; private set; }
     public ReceiverAdapter queue { get; private set; }
-    bool stop = false;
+    public bool stop = false;
     Action strategy;
     Action finishingStrategy;
     public ServerThread(ReceiverAdapter queue)

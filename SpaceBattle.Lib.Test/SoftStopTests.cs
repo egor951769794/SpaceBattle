@@ -7,11 +7,13 @@ namespace SpaceBattle.Lib.Test;
 
 public class SoftStopTests
 {
+    object scope = new object();
     public SoftStopTests()
     {
         new InitScopeBasedIoCImplementationCommand().Execute();
 
-        IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
+        scope = IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"));
+        IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", scope).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.ActionCommand", (object[] args) => new ActionCommand((Action)args[0])).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.InterpretMessage", (object[] args) => (ICommand)args[0]).Execute();
 
@@ -101,54 +103,29 @@ public class SoftStopTests
                 () =>
                 {
                     waiter.Set();
-                    Thread.Sleep(1000);
+                    // Thread.Sleep(1000);
                 }
             )
         );
         
-        IoC.Resolve<ICommand>("Threading.CreateAndStartThread", 2).Execute();
+        IoC.Resolve<ICommand>("Threading.CreateAndStartThread", 2, new Action(
+            () =>
+            {
+                IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", scope).Execute();
+            }
+        )).Execute();
+
+        var thread0 = IoC.Resolve<Dictionary<int, (ServerThread, SenderAdapter)>>("Threading.ServerThreads")[2].Item1;
+
 
         IoC.Resolve<ICommand>("Threading.SoftStop", 2).Execute();
-
+        Assert.True(thread0.queue.isEmpty());
         IoC.Resolve<ICommand>("Threading.SendCommand", 2, cmd).Execute();
         IoC.Resolve<ICommand>("Threading.SendCommand", 2, releaseThread).Execute();
+        // IoC.Resolve<ICommand>("Threading.SoftStop", 2).Execute();
 
         waiter.WaitOne();
 
         Assert.True(objToMove.Object.position == new Vector(5, 8));
-    }
-    [Fact]
-    public void successfulSoftStopEmptyQueue()
-    {
-        AutoResetEvent waiter = new AutoResetEvent(false);
-
-        var objToMove = new Mock<IMovable>();
-        objToMove.SetupProperty(x => x.position);
-        objToMove.SetupGet(x => x.speed).Returns(new Vector(-7, 3));
-        objToMove.Object.position = new Vector(12, 5);
-        var cmd = new MoveCommand(objToMove.Object);
-
-        var releaseThread = new ActionCommand(
-            new Action(
-                () =>
-                {
-                    waiter.Set();
-                    Thread.Sleep(1000);
-                }
-            )
-        );
-        
-        IoC.Resolve<ICommand>("Threading.CreateAndStartThread", 2).Execute();
-
-        var thread0 = IoC.Resolve<Dictionary<int, (ServerThread, SenderAdapter)>>("Threading.ServerThreads")[2].Item1;
-
-        IoC.Resolve<ICommand>("Threading.SoftStop", 2).Execute();
-        // Assert.True(thread0.queue.isEmpty());
-
-        IoC.Resolve<ICommand>("Threading.SendCommand", 2, releaseThread).Execute();
-
-        waiter.WaitOne();
-
-        Assert.True(objToMove.Object.position == new Vector(12, 5));
     }
 }

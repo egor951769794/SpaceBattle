@@ -74,8 +74,6 @@ public class HardStopTests
     [Fact]
     public void successfulHardStop()
     {
-        AutoResetEvent waiter = new AutoResetEvent(false);
-
         var objToMove = new Mock<IMovable>();
         objToMove.SetupProperty(x => x.position);
         objToMove.SetupGet(x => x.speed).Returns(new Vector(-7, 3));

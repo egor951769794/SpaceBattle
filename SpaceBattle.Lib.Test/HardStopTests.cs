@@ -74,18 +74,29 @@ public class HardStopTests
     [Fact]
     public void successfulHardStop()
     {
+        AutoResetEvent waiter = new AutoResetEvent(false);
+
         var objToMove = new Mock<IMovable>();
         objToMove.SetupProperty(x => x.position);
         objToMove.SetupGet(x => x.speed).Returns(new Vector(-7, 3));
         objToMove.Object.position = new Vector(12, 5);
         var cmd = new MoveCommand(objToMove.Object);
+
+        var releaseThread = new ActionCommand(
+            new Action(
+                () =>
+                {
+                    waiter.Set();
+                }
+            )
+        );
         
         IoC.Resolve<ICommand>("Threading.CreateAndStartThread", 1).Execute();
         IoC.Resolve<ICommand>("Threading.HardStop", 1).Execute();
 
         IoC.Resolve<ICommand>("Threading.SendCommand", 1, cmd).Execute();
+        IoC.Resolve<ICommand>("Threading.SendCommand", 1, releaseThread).Execute();
 
-        Thread.Sleep(50);
         Assert.False(objToMove.Object.position == new Vector(5, 8));
     }
 }

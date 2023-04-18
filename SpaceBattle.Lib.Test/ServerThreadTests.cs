@@ -52,18 +52,31 @@ public class ServerThreadTests
     [Fact]
     public void successfulThreadStart()
     {
+        AutoResetEvent waiter = new AutoResetEvent(false);
+
         var objToMove = new Mock<IMovable>();
         objToMove.SetupProperty(x => x.position);
         objToMove.SetupGet(x => x.speed).Returns(new Vector(-7, 3));
         objToMove.Object.position = new Vector(12, 5);
         var cmd = new MoveCommand(objToMove.Object);
-        
+
+        var releaseThread = new ActionCommand(
+            new Action(
+                () =>
+                {
+                    waiter.Set();
+                }
+            )
+        );
+    
         IoC.Resolve<ICommand>("Threading.CreateAndStartThread", 0).Execute();
         // var thread0 = IoC.Resolve<Dictionary<int, (ServerThread, SenderAdapter)>>("Threading.ServerThreads")[0].Item1;
 
         IoC.Resolve<ICommand>("Threading.SendCommand", 0, cmd).Execute();
+        IoC.Resolve<ICommand>("Threading.SendCommand", 0, releaseThread).Execute();
 
-        Thread.Sleep(1);
+        waiter.WaitOne();
+        
         Assert.True(objToMove.Object.position == new Vector(5, 8));
     }
 }

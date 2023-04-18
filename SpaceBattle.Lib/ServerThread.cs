@@ -14,10 +14,10 @@ public class ServerThread
             HandleCommand();
         };
 
-        finishingStrategy = () =>
+        finishingStrategy = new Action(() =>
         {
 
-        };
+        });
     
         thread = new Thread(() =>
         {

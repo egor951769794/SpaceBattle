@@ -117,6 +117,7 @@ public class SoftStopTests
 
         Assert.True(objToMove.Object.position == new Vector(5, 8));
     }
+    [Fact]
     public void successfulSoftStopEmptyQueue()
     {
         AutoResetEvent waiter = new AutoResetEvent(false);
@@ -139,12 +140,15 @@ public class SoftStopTests
         
         IoC.Resolve<ICommand>("Threading.CreateAndStartThread", 2).Execute();
 
+        var thread0 = IoC.Resolve<Dictionary<int, (ServerThread, SenderAdapter)>>("Threading.ServerThreads")[2].Item1;
+
         IoC.Resolve<ICommand>("Threading.SoftStop", 2).Execute();
+        // Assert.True(thread0.queue.isEmpty());
 
         IoC.Resolve<ICommand>("Threading.SendCommand", 2, releaseThread).Execute();
 
         waiter.WaitOne();
 
-        Assert.True(objToMove.Object.position == new Vector(5, 8));
+        Assert.True(objToMove.Object.position == new Vector(12, 5));
     }
 }

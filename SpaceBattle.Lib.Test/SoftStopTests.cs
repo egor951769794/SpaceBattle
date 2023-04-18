@@ -117,4 +117,34 @@ public class SoftStopTests
 
         Assert.True(objToMove.Object.position == new Vector(5, 8));
     }
+    public void successfulSoftStopEmptyQueue()
+    {
+        AutoResetEvent waiter = new AutoResetEvent(false);
+
+        var objToMove = new Mock<IMovable>();
+        objToMove.SetupProperty(x => x.position);
+        objToMove.SetupGet(x => x.speed).Returns(new Vector(-7, 3));
+        objToMove.Object.position = new Vector(12, 5);
+        var cmd = new MoveCommand(objToMove.Object);
+
+        var releaseThread = new ActionCommand(
+            new Action(
+                () =>
+                {
+                    waiter.Set();
+                    Thread.Sleep(1000);
+                }
+            )
+        );
+        
+        IoC.Resolve<ICommand>("Threading.CreateAndStartThread", 2).Execute();
+
+        IoC.Resolve<ICommand>("Threading.SoftStop", 2).Execute();
+
+        IoC.Resolve<ICommand>("Threading.SendCommand", 2, releaseThread).Execute();
+
+        waiter.WaitOne();
+
+        Assert.True(objToMove.Object.position == new Vector(5, 8));
+    }
 }

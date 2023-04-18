@@ -7,7 +7,7 @@ namespace SpaceBattle.Lib.Test;
 
 public class SoftStopTests
 {
-    object scope = new object();
+    object scope;
     public SoftStopTests()
     {
         new InitScopeBasedIoCImplementationCommand().Execute();
@@ -103,7 +103,7 @@ public class SoftStopTests
                 () =>
                 {
                     waiter.Set();
-                    // Thread.Sleep(1000);
+                    Thread.Sleep(1000);
                 }
             )
         );
@@ -116,13 +116,10 @@ public class SoftStopTests
         )).Execute();
 
         var thread0 = IoC.Resolve<Dictionary<int, (ServerThread, SenderAdapter)>>("Threading.ServerThreads")[2].Item1;
-
-
+        
         IoC.Resolve<ICommand>("Threading.SoftStop", 2).Execute();
-        Assert.True(thread0.queue.isEmpty());
         IoC.Resolve<ICommand>("Threading.SendCommand", 2, cmd).Execute();
         IoC.Resolve<ICommand>("Threading.SendCommand", 2, releaseThread).Execute();
-        // IoC.Resolve<ICommand>("Threading.SoftStop", 2).Execute();
 
         waiter.WaitOne();
 

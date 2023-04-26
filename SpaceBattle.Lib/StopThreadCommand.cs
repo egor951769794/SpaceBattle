@@ -1,6 +1,3 @@
-using Hwdtech;
-
-
 namespace SpaceBattle.Lib;
 public class StopThreadCommand : ICommand
 {

@@ -70,7 +70,6 @@ public class ServerThreadTests
         );
     
         IoC.Resolve<ICommand>("Threading.CreateAndStartThread", 0).Execute();
-        // var thread0 = IoC.Resolve<Dictionary<int, (ServerThread, SenderAdapter)>>("Threading.ServerThreads")[0].Item1;
 
         IoC.Resolve<ICommand>("Threading.SendCommand", 0, cmd).Execute();
         IoC.Resolve<ICommand>("Threading.SendCommand", 0, releaseThread).Execute();

@@ -97,16 +97,6 @@ public class SoftStopTests
         objToMove.SetupGet(x => x.speed).Returns(new Vector(-7, 3));
         objToMove.Object.position = new Vector(12, 5);
         var cmd = new MoveCommand(objToMove.Object);
-
-        var releaseThread = new ActionCommand(
-            new Action(
-                () =>
-                {
-                    waiter.Set();
-                    // Thread.Sleep(1000);
-                }
-            )
-        );
         
         IoC.Resolve<ICommand>("Threading.CreateAndStartThread", 2, new Action(
             () =>
@@ -125,14 +115,11 @@ public class SoftStopTests
                 waiter.Set();
             }
             )).Execute();
-        // Assert.True(thread0.queue.isEmpty());
-    
-        // IoC.Resolve<ICommand>("Threading.SendCommand", 2, cmd).Execute();
-        // Thread.Sleep(100);
-        
-        
+
         waiter.WaitOne();
+        
         IoC.Resolve<ICommand>("Threading.SendCommand", 2, cmd).Execute();
+        
         Assert.True(objToMove.Object.position == new Vector(5, 8));
     }
 }

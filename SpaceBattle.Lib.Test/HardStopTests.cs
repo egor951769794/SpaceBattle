@@ -84,6 +84,7 @@ public class HardStopTests
         IoC.Resolve<ICommand>("Threading.HardStop", 1).Execute();
 
         IoC.Resolve<ICommand>("Threading.SendCommand", 1, cmd).Execute();
+        Thread.Sleep(1000);
 
         Assert.False(objToMove.Object.position == new Vector(5, 8));
     }

@@ -20,8 +20,7 @@ public class HardStopThreadCommand : ICommand
 
         int threadId = IoC.Resolve<int>("Threading.GetThreadId", this.stoppingThread);
 
-        updateFinishingBehaviour.Execute();
-        // IoC.Resolve<ICommand>("Threading.SendCommand", threadId, updateFinishingBehaviour).Execute();
+        IoC.Resolve<ICommand>("Threading.SendCommand", threadId, updateFinishingBehaviour).Execute();
         IoC.Resolve<ICommand>("Threading.SendCommand", threadId, stopThread).Execute();
     }
 }

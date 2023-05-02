@@ -7,13 +7,11 @@ namespace SpaceBattle.Lib.Test;
 
 public class SoftStopTests
 {
-    object scope;
     public SoftStopTests()
     {
         new InitScopeBasedIoCImplementationCommand().Execute();
 
-        scope = IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"));
-        IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", scope).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.ActionCommand", (object[] args) => new ActionCommand((Action)args[0])).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.InterpretMessage", (object[] args) => (ICommand)args[0]).Execute();
 
@@ -75,7 +73,7 @@ public class SoftStopTests
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Threading.SoftStop", (object[] args) => 
         {
             Action task = new Action(() => {});
-            if (args.Length == 2)
+            if (args.Length > 1)
             {
                 task = (Action)args[1];
             }
@@ -96,30 +94,35 @@ public class SoftStopTests
         objToMove.SetupProperty(x => x.position);
         objToMove.SetupGet(x => x.speed).Returns(new Vector(-7, 3));
         objToMove.Object.position = new Vector(12, 5);
+        
         var cmd = new MoveCommand(objToMove.Object);
         
-        IoC.Resolve<ICommand>("Threading.CreateAndStartThread", 2, new Action(
-            () =>
-            {
-                IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", scope).Execute();
-            }
-        )).Execute();
+        IoC.Resolve<ICommand>("Threading.CreateAndStartThread", 2).Execute();
 
-        var thread0 = IoC.Resolve<Dictionary<int, (ServerThread, SenderAdapter)>>("Threading.ServerThreads")[2].Item1;
+        ICommand softStop = IoC.Resolve<ICommand>("Threading.SoftStop", 2);
 
-        IoC.Resolve<ICommand>("Threading.SendCommand", 2, cmd).Execute();
-
-        IoC.Resolve<ICommand>("Threading.SoftStop", 2, new Action(
+        var releaseThread = new ActionCommand(
             () =>
             {
                 waiter.Set();
             }
-            )).Execute();
+        );
+
+        var thread0 = IoC.Resolve<Dictionary<int, (ServerThread, SenderAdapter)>>("Threading.ServerThreads")[2].Item1;
+
+        IoC.Resolve<ICommand>("Threading.SendCommand", 2, cmd).Execute();
+        IoC.Resolve<ICommand>("Threading.SendCommand", 2, cmd).Execute();
+
+        IoC.Resolve<ICommand>("Threading.SendCommand", 2, softStop).Execute();
+        IoC.Resolve<ICommand>("Threading.SendCommand", 2, cmd).Execute();
+        IoC.Resolve<ICommand>("Threading.SendCommand", 2, cmd).Execute();
+
+        IoC.Resolve<ICommand>("Threading.SendCommand", 2, releaseThread).Execute();
+
+        var threadReceiver = IoC.Resolve<Dictionary<int, (ServerThread, SenderAdapter)>>("Threading.ServerThreads")[2].Item1.queue;
 
         waiter.WaitOne();
         
-        IoC.Resolve<ICommand>("Threading.SendCommand", 2, cmd).Execute();
-        
-        Assert.True(objToMove.Object.position == new Vector(5, 8));
+        Assert.True(threadReceiver.isEmpty());
     }
 }

@@ -81,10 +81,16 @@ public class HardStopTests
         var cmd = new MoveCommand(objToMove.Object);
         
         IoC.Resolve<ICommand>("Threading.CreateAndStartThread", 1).Execute();
+        var threadReceiver = IoC.Resolve<Dictionary<int, (ServerThread, SenderAdapter)>>("Threading.ServerThreads")[1].Item1.queue;
+
+        IoC.Resolve<ICommand>("Threading.SendCommand", 1, cmd).Execute();
+        IoC.Resolve<ICommand>("Threading.SendCommand", 1, cmd).Execute();
+        
         IoC.Resolve<ICommand>("Threading.HardStop", 1).Execute();
 
         IoC.Resolve<ICommand>("Threading.SendCommand", 1, cmd).Execute();
+        IoC.Resolve<ICommand>("Threading.SendCommand", 1, cmd).Execute();
 
-        Assert.False(objToMove.Object.position == new Vector(5, 8));
+        Assert.False(threadReceiver.isEmpty());
     }
 }

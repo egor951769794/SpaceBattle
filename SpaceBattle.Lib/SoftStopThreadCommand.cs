@@ -20,7 +20,7 @@ public class SoftStopThreadCommand : ICommand
             {
                 int threadId = IoC.Resolve<int>("Threading.GetThreadId", this.stoppingThread);
                 ICommand hardStopThread = IoC.Resolve<ICommand>("Threading.HardStop", threadId, this.finishingTask);
-                IoC.Resolve<ICommand>("Threading.SendCommand", hardStopThread).Execute();
+                IoC.Resolve<ICommand>("Threading.SendCommand", threadId, hardStopThread).Execute();
             }
             else
             {

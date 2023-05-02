@@ -7,11 +7,13 @@ namespace SpaceBattle.Lib.Test;
 
 public class SoftStopTests
 {
+    object scope;
     public SoftStopTests()
     {
         new InitScopeBasedIoCImplementationCommand().Execute();
 
-        IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
+        scope = IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"));
+        IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", scope).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.ActionCommand", (object[] args) => new ActionCommand((Action)args[0])).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.InterpretMessage", (object[] args) => (ICommand)args[0]).Execute();
 
@@ -97,7 +99,12 @@ public class SoftStopTests
         
         var cmd = new MoveCommand(objToMove.Object);
         
-        IoC.Resolve<ICommand>("Threading.CreateAndStartThread", 2).Execute();
+        IoC.Resolve<ICommand>("Threading.CreateAndStartThread", 2, new Action(
+            () =>
+            {
+                IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", scope).Execute();
+            }
+        )).Execute();
 
         ICommand softStop = IoC.Resolve<ICommand>("Threading.SoftStop", 2);
 

@@ -11,6 +11,6 @@ public class UpdateBehaviourCommand : ICommand
     }
     public void Execute()
     {
-        thread.UpdateBehaviour(behaviour);
+        thread._updateBehaviour(behaviour);
     }
 }

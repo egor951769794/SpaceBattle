@@ -11,6 +11,6 @@ public class UpdateFinishBehaviourCommand : ICommand
     }
     public void Execute()
     {
-        thread.UpdateFinishingBehaviour(behaviour);
+        thread._updateFinishingBehaviour(behaviour);
     }
 }

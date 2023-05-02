@@ -6,6 +6,6 @@ public class StopThreadCommand : ICommand
 
     public void Execute()
     {
-        stoppingThread.Stop();
+        stoppingThread._stop();
     }
 }

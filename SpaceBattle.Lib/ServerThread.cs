@@ -3,8 +3,7 @@ public class ServerThread
 {
     public Thread thread { get; private set; }
     public ReceiverAdapter queue { get; private set; }
-    public bool stop = false;
-    public bool updated = false;
+    bool stop = false;
     Action strategy;
     Action finishingStrategy;
     public ServerThread(ReceiverAdapter queue)
@@ -12,7 +11,7 @@ public class ServerThread
         this.queue = queue;
         strategy = () =>
         {
-            HandleCommand();
+            _handleCommand();
         };
 
         finishingStrategy = new Action(() =>
@@ -28,20 +27,20 @@ public class ServerThread
             }
         });
     }
-    internal void Stop()
+    internal void _stop()
     {
         finishingStrategy();
         stop = true;
     }
-    internal void HandleCommand()
+    internal void _handleCommand()
     {
         queue.Receive().Execute();
     }
-    internal void UpdateBehaviour(Action newBehaviour)
+    internal void _updateBehaviour(Action newBehaviour)
     {
         strategy = newBehaviour;
     }
-    internal void UpdateFinishingBehaviour(Action newBehaviour)
+    internal void _updateFinishingBehaviour(Action newBehaviour)
     {
         finishingStrategy = newBehaviour;
     }

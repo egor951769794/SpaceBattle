@@ -106,7 +106,12 @@ public class SoftStopTests
             }
         )).Execute();
 
-        ICommand softStop = IoC.Resolve<ICommand>("Threading.SoftStop", 2);
+        ICommand softStop = IoC.Resolve<ICommand>("Threading.SoftStop", 2, new Action(
+            () =>
+            {
+                waiter.Set();
+            }
+        ));
 
         var releaseThread = new ActionCommand(
             () =>
@@ -123,8 +128,6 @@ public class SoftStopTests
         IoC.Resolve<ICommand>("Threading.SendCommand", 2, softStop).Execute();
         IoC.Resolve<ICommand>("Threading.SendCommand", 2, cmd).Execute();
         IoC.Resolve<ICommand>("Threading.SendCommand", 2, cmd).Execute();
-
-        IoC.Resolve<ICommand>("Threading.SendCommand", 2, releaseThread).Execute();
 
         var threadReceiver = IoC.Resolve<Dictionary<int, (ServerThread, SenderAdapter)>>("Threading.ServerThreads")[2].Item1.queue;
 

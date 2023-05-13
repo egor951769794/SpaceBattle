@@ -64,6 +64,10 @@ public class TestInterpretCommand
         Mock<UObject> mockUObject = new Mock<UObject>();
         mockUObject.Setup(x => x.setProperty(It.IsAny<string>(), It.IsAny<object>())).Verifiable();
 
+        gameDictionary.Add("1", new Queue<SpaceBattle.Lib.ICommand>());
+
+        uobjectDictionary.Add("1", mockUObject.Object);
+
         Mock<IMessage> mockMessage = new Mock<IMessage>();
         mockMessage.SetupGet(x => x.Gameid).Returns("14");
         mockMessage.SetupGet(x => x.Typecmd).Returns("Test");
@@ -90,6 +94,10 @@ public class TestInterpretCommand
         Mock<UObject> mockUObject = new Mock<UObject>();
         mockUObject.Setup(x => x.setProperty(It.IsAny<string>(), It.IsAny<object>())).Verifiable();
 
+        gameDictionary.Add("1", new Queue<SpaceBattle.Lib.ICommand>());
+
+        uobjectDictionary.Add("1", mockUObject.Object);
+
         Mock<IMessage> mockMessage = new Mock<IMessage>();
         mockMessage.SetupGet(x => x.Gameid).Returns("1");
         mockMessage.SetupGet(x => x.Typecmd).Returns("Test");
@@ -103,7 +111,7 @@ public class TestInterpretCommand
     }
 
     [Fact]
-    public void GetPropertyException()
+    public void GetMessageParamException()
     {
         Dictionary<string, Queue<SpaceBattle.Lib.ICommand>> gameDictionary = new Dictionary<string, Queue<SpaceBattle.Lib.ICommand>>();
         Dictionary<string, UObject> uobjectDictionary = new Dictionary<string, UObject>();
@@ -116,7 +124,7 @@ public class TestInterpretCommand
         mockUObject.Setup(x => x.setProperty(It.IsAny<string>(), It.IsAny<object>())).Verifiable();
 
         Mock<IMessage> mockMessage = new Mock<IMessage>();
-        mockMessage.SetupGet(x => x.Gameid).Returns("1");
+        mockMessage.SetupGet(x => x.Gameid).Throws(new Exception());
         mockMessage.SetupGet(x => x.Typecmd).Returns("Test");
         mockMessage.SetupGet(x => x.Args).Returns(new Dictionary<string, object> { { "Test", 1 } });
         mockMessage.SetupGet(x => x.UObjectid).Returns("1");

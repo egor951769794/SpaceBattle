@@ -17,7 +17,7 @@ public class TestGameCommand
 
 
     [Fact]
-    public void TestEmptyQueueExeption()
+    public void QueueDequeueException()
     {
         var scope = IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"));
 
@@ -43,7 +43,7 @@ public class TestGameCommand
     }
 
     [Fact]
-    public void TestSuccesfullHandleException()
+    public void TestHandleException()
     {
         var scope = IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"));
 
@@ -130,5 +130,6 @@ public class TestGameCommand
 
         gameCmd.Execute();
         Assert.True(queue.Count == 0);
+        Assert.Equal(scopeNew, IoC.Resolve<object>("Scopes.Current"));
     }
 }

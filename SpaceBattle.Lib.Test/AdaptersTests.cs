@@ -1,4 +1,3 @@
-using Moq;
 namespace SpaceBattle.Lib.Test;
 
 
@@ -41,8 +40,6 @@ public class AdapterTests
         string speedGet = "get => (SpaceBattle.Lib.Vector) target.getProperty(\"speed\");";
 
         string expected = header + openFigBracket + targetField + constructor + posHeader + openFigBracket + posGet + posSet + closingFigBracket + speedHeader + openFigBracket + speedGet + closingFigBracket + closingFigBracket;
-
-        var mockObj = new Mock<IMovable>();
 
         Type? IMovableType = Type.GetType("SpaceBattle.Lib.IMovable, SpaceBattle.Lib", true, true);
 

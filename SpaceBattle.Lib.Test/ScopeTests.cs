@@ -48,7 +48,9 @@ public class ScopeTests
             }
         )).Execute();
 
-        ICommand gameCommand = (ICommand) new CreateNewGame().Run();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.CreateNew", (object[] args) => new CreateNewGame((int) args[0]).Run()).Execute();
+
+        ICommand gameCommand = IoC.Resolve<ICommand>("Game.CreateNew", 500);
         gameCommand.Execute();
 
         Assert.Equal(500, IoC.Resolve<int>("GetQuantum"));
@@ -73,10 +75,14 @@ public class ScopeTests
             }
         )).Execute();
 
-        ICommand gameCommand = (ICommand) new CreateNewGame().Run();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.CreateNew", (object[] args) => new CreateNewGame((int) args[0]).Run()).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.DeleteGame", (object[] args) => new DeleteGame()).Execute();
+
+        ICommand gameCommand = IoC.Resolve<ICommand>("Game.CreateNew", 500);
+        IStrategy deleteGame = IoC.Resolve<IStrategy>("Game.DeleteGame");
         gameCommand.Execute();
 
-        new DeleteGame().Run();
+        deleteGame.Run();
         Assert.Throws<ArgumentException>(
             () =>
             {

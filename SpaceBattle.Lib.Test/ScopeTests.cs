@@ -60,4 +60,40 @@ public class ScopeTests
             }
         );
     }
+    [Fact]
+    public void DeleteGameTest()
+    {
+        new InitScopeBasedIoCImplementationCommand().Execute();
+        IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
+
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.GameCommand", (object[] args) => new ActionCommand(
+            () =>
+            {
+                IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", args[0]).Execute();
+            }
+        )).Execute();
+
+        ICommand gameCommand = (ICommand) new CreateNewGame().Run();
+        gameCommand.Execute();
+
+        new DeleteGame().Run();
+        Assert.Throws<ArgumentException>(
+            () =>
+            {
+                IoC.Resolve<int>("GetQuantum");
+            }
+        );
+        Assert.Throws<ArgumentException>(
+            () =>
+            {
+                IoC.Resolve<ICommand>("QueueDequeue");
+            }
+        );
+        Assert.Throws<ArgumentException>(
+            () =>
+            {
+                IoC.Resolve<ICommand>("QueueEnqueue");
+            }
+        );
+    }
 }

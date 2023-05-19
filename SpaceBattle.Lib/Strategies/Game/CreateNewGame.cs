@@ -5,8 +5,8 @@ namespace SpaceBattle.Lib;
 
 public class CreateNewGame : IStrategy
 {
-    int quantum = 500;
-    public CreateNewGame(int _quantum)
+    int quantum;
+    public CreateNewGame(int _quantum = 500)
     {
         quantum = _quantum;
     }

@@ -24,6 +24,8 @@ public class InitGameScope : IStrategy
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.GetItem", (Func<object[], UObject>) (args => (UObject) new GetItem().Run(args[0]))).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "General.RemoveItem", (Func<object[], ICommand>) (args => new RemoveItemCommand((string)args[0]))).Execute();
 
+        IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
+
         return scope;
     }
 }

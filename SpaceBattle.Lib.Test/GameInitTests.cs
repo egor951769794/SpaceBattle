@@ -71,5 +71,17 @@ public class GameInitTests
         Assert.True((Vector) gameObjects["3"].getProperty("position") == new Vector(-5, 0));
         Assert.True((Vector) gameObjects["4"].getProperty("position") == new Vector(0, 0));
         Assert.True((Vector) gameObjects["5"].getProperty("position") == new Vector(-5, 15));
+
+        new CreateEmptyShips().Run();
+        
+        var someShips = new UObject[] {
+            IoC.Resolve<UObject>("General.GetItem", "6"),
+            IoC.Resolve<UObject>("General.GetItem", "7"),
+            IoC.Resolve<UObject>("General.GetItem", "8"),
+        };
+        new PlaceObjects().Run(someShips, 5);
+        Assert.True((Vector) gameObjects["6"].getProperty("position") == new Vector(0, 0));
+        Assert.True((Vector) gameObjects["7"].getProperty("position") == new Vector(5, 0));
+        Assert.True((Vector) gameObjects["8"].getProperty("position") == new Vector(10, 0));
     }
 }

@@ -29,7 +29,7 @@ public class PlaceObjects : IStrategy
                 int horizontalPos = (int) args[4];
                 for (int i = 0; i < objects.Count(); i++)
                 {
-                    Vector pos = new Vector(horizontalPos + horizontalDif * (i % 2), verticalOffset * i);
+                    Vector pos = new Vector(horizontalPos + horizontalDif * (i % 2), verticalOffset * (i / 2 ));
                     objects[i].setProperty("position", pos);
                 }
             }

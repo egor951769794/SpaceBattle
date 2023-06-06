@@ -10,7 +10,6 @@ public class CreateEmptyShips : IStrategy
         Dictionary<string, UObject> gameObjects = IoC.Resolve<Dictionary<string, UObject>>("General.Objects");
         Dictionary<string, object> gameParams = IoC.Resolve<Dictionary<string, object>>("Game.InitProperties");
         int numOfPlayers = (int) gameParams["numberOfPlayers"];
-        List<int> players = (List<int>) gameParams["players"];
         for (int i = 0; i < numOfPlayers; i++)
         {
             string playerId = IoC.Resolve<string>("General.AddNewPlayer");

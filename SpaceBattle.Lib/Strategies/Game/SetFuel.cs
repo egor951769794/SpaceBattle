@@ -8,7 +8,7 @@ public class SetFuel : IStrategy
     public object Run(params object[] args)
     {
         UObject obj = (UObject) args[0];
-        obj.setProperty("fuel", (float) args[1]);
+        obj.setProperty("fuel", Convert.ToDouble(args[1]));
         return new object();
     }
 }

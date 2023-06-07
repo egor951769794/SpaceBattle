@@ -1,11 +1,6 @@
 using Hwdtech;
 
 namespace SpaceBattle.Lib;
-public interface UObject
-{
-    IDictionary<string, object> Scope { get; set; }
-    object this[string key] { get; set; }
-}
 public interface IMoveCommandEndable
 {
     UObject Object { get; }

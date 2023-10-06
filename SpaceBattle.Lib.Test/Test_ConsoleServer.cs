@@ -39,11 +39,11 @@ public class Test_ServerStart
 
         IoC.Resolve<ICommand>("IoC.Register", "Thread.ConsoleStartServer", (object[] args) => {
             start = true;
-            return new ActionCommand();
+            return new EmptyCommand();
         }).Execute();
         IoC.Resolve<ICommand>("IoC.Register", "Thread.ConsoleStopServer", (object[] args) => {
             stop = true;
-            return new ActionCommand();
+            return new EmptyCommand();
         }).Execute();
         IoC.Resolve<ICommand>("IoC.Register", "Exception.GetLogName", (object[] args) => {
             return "error.log";

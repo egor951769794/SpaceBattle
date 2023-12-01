@@ -33,10 +33,12 @@ public class Test_ServerStart
             return threads;
         }).Execute();
 
-        IoC.Resolve<ICommand>("IoC.Register", "Thread.HardStopTheThreads", (object[] args) => {
+        IoC.Resolve<ICommand>("IoC.Register", "Thread.SoftStopTheThread", (object[] args) => {
+            return new EmptyCommand();
+        }).Execute();
+        IoC.Resolve<ICommand>("IoC.Register", "Threading.SendCommand", (object[] args) => {
             return new ActionCommand(() => { threadsStopCount++; });
         }).Execute();
-
         IoC.Resolve<ICommand>("IoC.Register", "Thread.ConsoleStartServer", (object[] args) => {
             start = true;
             return new EmptyCommand();

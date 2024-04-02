@@ -69,7 +69,7 @@ public class Test_ServerStart
     {
         Dictionary<string, string> myThreads = IoC.Resolve<Dictionary<string, string>>("Thread.GetDictionary");
         Mock<ISender> sender = new();
-        sender.Verifiable();
+        sender.Setup(x => x.Send(It.IsAny<object>())).Verifiable();
         IoC.Resolve<ICommand>("IoC.Register", "Thread.GetSender", (object[] args) => {
             return sender;
         });

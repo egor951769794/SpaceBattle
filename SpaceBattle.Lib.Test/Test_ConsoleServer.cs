@@ -68,10 +68,16 @@ public class Test_ServerStart
     public void StopThreadTest()
     {
         Dictionary<string, string> myThreads = IoC.Resolve<Dictionary<string, string>>("Thread.GetDictionary");
+        Mock<ISender> sender = new();
+        sender.Verifiable();
+        IoC.Resolve<ICommand>("IoC.Register", "Thread.GetSender", (object[] args) => {
+            return sender;
+        });
 
         var StopServerCommand = new StopServerCommand();
         StopServerCommand.Execute();
 
+        sender.Verify();
         Assert.Equal(myThreads.Count, threadsStopCount);
     }
     [Fact]

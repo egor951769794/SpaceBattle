@@ -9,7 +9,7 @@ public class StopServerCommand : ICommand
         foreach (string threadId in myThreads.Keys)
         {
             var softStopCommand = IoC.Resolve<ICommand>("Thread.SoftStopTheThread");
-            ISender sender = IoC.Resolve<ISender>("Thread.GetSender");
+            ISender sender = IoC.Resolve<ISender>("Thread.GetSender", threadId);
             sender.Send(softStopCommand);
         }
     }

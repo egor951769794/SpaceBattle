@@ -1,6 +1,5 @@
 namespace SpaceBattle.Lib.Strategies;
 
-
 using System.Linq;
 using System.Reflection;
 using SpaceBattle.Lib;

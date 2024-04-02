@@ -51,7 +51,6 @@ public class AdapterSourceCodeBuilderStrategyTests
             },
             options: compOptions
         );
-
         // Assertation
         Assert.Empty(compilation.GetDiagnostics()); // No compilation errors
         Assert.True(

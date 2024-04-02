@@ -1,5 +1,5 @@
 namespace SpaceBattle.Lib;
-interface ISender
+public interface ISender
 {
     void Send(object message);
 }

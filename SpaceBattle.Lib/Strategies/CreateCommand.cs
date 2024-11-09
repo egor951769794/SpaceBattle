@@ -12,6 +12,6 @@ public class CreateCommand : IStrategy
         var UObject = IoC.Resolve<UObject>("GetUObject", message.UObjectid);
         
         message.Args.ToList().ForEach(x => UObject.setProperty(x.Key, x.Value));
-        return IoC.Resolve<SpaceBattle.Lib.ICommand>("Command" + message.Typecmd, UObject);
+        return IoC.Resolve<ICommand>("Command" + message.Typecmd, UObject);
     }
 }

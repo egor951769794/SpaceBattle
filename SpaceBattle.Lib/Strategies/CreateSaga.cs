@@ -19,7 +19,7 @@ public class CreateSaga: IStrategy
 
         cmdNames.ForEach(name => 
             {
-                cmds.Add(new Tuple<ICommand, ICommand>(IoC.Resolve<ICommand>(name, obj), IoC.Resolve<ICommand>("Undo." + name, obj)));
+                cmds.Add(new Tuple<ICommand, ICommand>(IoC.Resolve<ICommand>("Commands." + name, obj), IoC.Resolve<ICommand>("Commands.Undo." + name, obj)));
             }
         );
 

@@ -14,7 +14,6 @@ public class SagaCompensationCommand : ICommand
 
     public void Execute()
     {
-        
         compensations.ForEach(x => x.Execute());
     }
 }

@@ -17,3 +17,5 @@ MACRO_TASK1 [![codecov](https://codecov.io/github/egor951769794/SpaceBattle/bran
 ...
 
 FIND_EXCEPTION_HANDLER [![codecov](https://codecov.io/github/egor951769794/SpaceBattle/branch/find_exception_handler/graph/badge.svg?token=V44VRLBEG8)](https://codecov.io/github/egor951769794/SpaceBattle)
+
+SAGA [![codecov](https://codecov.io/github/egor951769794/SpaceBattle/branch/sagaCommand/graph/badge.svg?token=V44VRLBEG8)](https://codecov.io/github/egor951769794/SpaceBattle)

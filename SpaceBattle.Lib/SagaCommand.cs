@@ -2,24 +2,29 @@ namespace SpaceBattle.Lib;
 public class SagaCommand : ICommand
 {
     List<Tuple<ICommand, ICommand>> cmds;
+    SagaCompensationCommand saga;
     public SagaCommand(List<Tuple<ICommand, ICommand>> _cmds)
     {
         cmds = _cmds;
+        saga = new SagaCompensationCommand(new List<ICommand>());
     }      
     public void Execute()
     {
         int i = 0;
-        try
+        bool br = false;
+        while (!br)
         {
-            for (; i < cmds.Count(); i++)
+            try 
             {
                 cmds[i].Item1.Execute();
-            }
-        } catch {
-            i -= 1;
-            for (; i >= 0; i--)
+                saga.addCompensation(cmds[i].Item2);
+                i++;
+                if (i == cmds.Count) br = true;
+            } 
+            catch
             {
-                cmds[i].Item2.Execute();
+                br = true;
+                saga.Execute();
             }
         }
     }

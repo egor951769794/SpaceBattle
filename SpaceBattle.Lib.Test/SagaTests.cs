@@ -49,7 +49,7 @@ public class SagaTests
             })
             ).Execute();
 
-        SagaCommand sc = (SagaCommand) new CreateSaga().Run("WasteFuelCommand", "MoveCommand", obj);
+        SagaCommand sc = (SagaCommand) new CreateSaga().Run("MoveCommand", "WasteFuelCommand", obj);
         sc.Execute();
 
         mockIWAdapter.VerifyGet(x => x.fuelLevel, Times.Once);

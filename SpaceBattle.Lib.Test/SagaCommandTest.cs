@@ -91,7 +91,7 @@ public class SagaCommandTest
         IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set",
             IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
         ).Execute();
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "SagaCGIommand", (object[] args) => new SagaCommandStrategy().Run(args)).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "SagaCommand", (object[] args) => new SagaCommandStrategy().Run(args)).Execute();
 
         Mock<ICommand> command = new(MockBehavior.Strict);
         command.Setup(x => x.Execute()).Verifiable();

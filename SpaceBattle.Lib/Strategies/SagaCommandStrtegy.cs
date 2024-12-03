@@ -10,7 +10,7 @@ public class SagaCommandStrategy : IStrategy
         {
             string commandName = item.Item1;
             object[] commandArgs = item.Item2;
-            ICommand command = Hwdtech.IoC.Resolve<ICommand>($"{commandName}", commandArgs);
+            ICommand command = Hwdtech.IoC.Resolve<ICommand>(commandName, commandArgs);
             ICommand commandCompensating = Hwdtech.IoC.Resolve<ICommand>($"{commandName}.Compensating", commandArgs);
             commandPairs.Add(new SagaCommandPair(command, commandCompensating));
         }

@@ -6,11 +6,11 @@ namespace SpaceBattle.Lib;
 
 public class GameCommand : SpaceBattle.Lib.ICommand
 {
-    private Queue<SpaceBattle.Lib.ICommand> queue;
+    private IEnumerable<SpaceBattle.Lib.ICommand> queue;
 
     private object scope;
 
-    public GameCommand(object scope, Queue<SpaceBattle.Lib.ICommand> queue)
+    public GameCommand(object scope, IEnumerable<SpaceBattle.Lib.ICommand> queue)
     {
         this.scope = scope;
         this.queue = queue;

@@ -1,5 +1,5 @@
 namespace SpaceBattle.Lib;
-interface IReceiver
+public interface IReceiver
 {
     ICommand Receive();
     bool isEmpty();

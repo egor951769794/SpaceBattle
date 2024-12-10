@@ -16,9 +16,7 @@ public class ShardedThreadsMessagesInterpreter
     public void sendMessage(IMessage msg)
     {
         string threadId = threadsGamesDict.First(x => x.Value.Contains(msg.Gameid)).Key;
-        // interpretStrategy.Run(threadId, msg);
-        // InterpretThreadMessageCommand intCmd = new InterpretThreadMessageCommand(msg);
-        SenderAdapter threadMsgSender = IoC.Resolve<SenderAdapter>("Threading.Get.MessageSender", threadId);
+        ThreadMessageSenderAdapter threadMsgSender = IoC.Resolve<ThreadMessageSenderAdapter>("Threading.Get.MessageSender", threadId);
         threadMsgSender.Send(msg);
     }
 

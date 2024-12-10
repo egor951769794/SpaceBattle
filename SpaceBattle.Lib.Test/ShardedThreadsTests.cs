@@ -33,9 +33,9 @@ public class ShardedThreadsTests
         // Mock<BlockingCollection<ICommand>> mockMsgQueue1 = new Mock<BlockingCollection<ICommand>>();
         BlockingCollection<ICommand> msgQueue2 = new BlockingCollection<ICommand>();
 
-        SenderAdapter msa1 = new SenderAdapter(msgQueue1);
-        SenderAdapter msa2 = new SenderAdapter(msgQueue2);
-        Dictionary<string, SenderAdapter> msgSenders = new Dictionary<string, SenderAdapter>();
+        ThreadMessageSenderAdapter msa1 = new ThreadMessageSenderAdapter(msgQueue1);
+        ThreadMessageSenderAdapter msa2 = new ThreadMessageSenderAdapter(msgQueue2);
+        Dictionary<string, ThreadMessageSenderAdapter> msgSenders = new Dictionary<string, ThreadMessageSenderAdapter>();
         msgSenders["th1"] = msa1;
         msgSenders["th2"] = msa2;
 

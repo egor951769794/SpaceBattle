@@ -20,7 +20,10 @@ public class UpdateBehaviourTests
 
         var ra = new ReceiverAdapter(queue);
 
-        var st = new ServerThread(ra);
+        Mock<IReceiver> mockMsgReceiver = new Mock<IReceiver>();
+        mockMsgReceiver.Setup(x => x.isEmpty()).Returns(true);
+
+        var st = new ServerThread(ra, mockMsgReceiver.Object);
 
         var HandleNothing = () => 
         {

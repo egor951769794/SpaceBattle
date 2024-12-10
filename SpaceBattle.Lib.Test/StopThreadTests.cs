@@ -30,8 +30,11 @@ public class ThreadStopTests
                 var receiverQueue = new ReceiverAdapter(queue);
                 var senderQueue = new SenderAdapter(queue);
 
+                Mock<IReceiver> mockMsgReceiver = new Mock<IReceiver>();
+                mockMsgReceiver.Setup(x => x.isEmpty()).Returns(true);
+
                 IoC.Resolve<Dictionary<int, (ServerThread, SenderAdapter)>>("Threading.ServerThreads")
-                .Add((int)args[0], (new ServerThread(receiverQueue), senderQueue));
+                .Add((int)args[0], (new ServerThread(receiverQueue, mockMsgReceiver.Object), senderQueue));
 
                 IoC.Resolve<Dictionary<int, (ServerThread, SenderAdapter)>>("Threading.ServerThreads")[(int)args[0]].Item1.Start();
 

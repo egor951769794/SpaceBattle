@@ -45,10 +45,10 @@ public class ShardedThreadsTests
         ReceiverAdapter mra1 = new ReceiverAdapter(msgQueue1);
         ReceiverAdapter mra2 = new ReceiverAdapter(msgQueue2);
 
-        ServerThreadConcurrent thread1 = new ServerThreadConcurrent(gra1, mra1);
-        ServerThreadConcurrent thread2 = new ServerThreadConcurrent(gra2, mra2);
+        ServerThread thread1 = new ServerThread(gra1, mra1);
+        ServerThread thread2 = new ServerThread(gra2, mra2);
 
-        List<ServerThreadConcurrent> threads = new List<ServerThreadConcurrent> {thread1, thread2};
+        List<ServerThread> threads = new List<ServerThread> {thread1, thread2};
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Threading.Thread.Get", (object[] args) => threads[(int) args[0]]).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Threading.Get.MessageSender", (object[] args) => msgSenders[(string) args[0]]).Execute();

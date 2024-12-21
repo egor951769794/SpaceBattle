@@ -12,6 +12,6 @@ public class ThreadMessageSenderAdapter : ISender
 
     public void Send(object message)
     {
-        queue.Add(new InterpretThreadMessageCommand((IMessage) message));
+        queue.Add((ICommand) message);
     }
 }

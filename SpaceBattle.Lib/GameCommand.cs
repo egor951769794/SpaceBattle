@@ -4,6 +4,7 @@ using Hwdtech;
 namespace SpaceBattle.Lib;
 
 
+[Serializable]
 public class GameCommand : SpaceBattle.Lib.ICommand
 {
     private IEnumerable<SpaceBattle.Lib.ICommand> queue;

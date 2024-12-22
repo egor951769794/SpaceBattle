@@ -22,6 +22,8 @@ public class ShardedThreadsTests
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.GameCommand", (object[] args) => new GameCommand(args[0], (IEnumerable<ICommand>) args[1])).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.InterpretMessage", (object[] args) => new InterpretThreadMessageCommand((IMessage) args[0])).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "CreateCommand", (object[] args) => new Mock<ICommand>().Object).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.GetAll", (object[] args) => new Mock<ConcurrentDictionary<string, ICommand>>().Object).Execute();
+
     }
     
     [Fact]

@@ -6,19 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("[controller]")]
-public class SpaceBattleController : ControllerBase
+public class RequestsHandler : ControllerBase
 {
 	private readonly ShardedThreadsMessagesInterpreter threadsInterpreter;
 
-	public SpaceBattleController(ShardedThreadsMessagesInterpreter threadsInterpreter)
+	public RequestsHandler(ShardedThreadsMessagesInterpreter threadsInterpreter)
 	{
 		this.threadsInterpreter = threadsInterpreter;
 	}
 
     [HttpPost("/game/migrateOrder")]
-	public IActionResult PrepareGame([FromHeader(Name = "Game-Id")] string gameId, [FromBody] string serverUrl, [FromBody] string threadId)
+	public IActionResult PrepareGame([FromHeader(Name = "Game-Id")] string gameId, [FromBody] MigrateOrderBody orderBody)
 	{
-        threadsInterpreter.sendGameMigration(threadId, gameId, serverUrl);
+        System.Console.WriteLine("\n\n\n\n\n");
+        threadsInterpreter.sendGameMigration(orderBody.threadId, gameId, orderBody.serverUrl);
 
 		return Ok();
 	}

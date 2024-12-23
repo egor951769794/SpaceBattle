@@ -1,6 +1,5 @@
 using Hwdtech;
 using System.Collections.Concurrent;
-using System.Text;
 using System.Text.Json;
 
 
@@ -31,8 +30,8 @@ public class PrepareGameMigrationCommand : ICommand
         using (HttpClient client = new HttpClient())
         {
             client.DefaultRequestHeaders.Add("Thread-Id", threadId);
-            HttpContent game = new StringContent(serializedGame, Encoding.UTF8, "application/json");
-            client.PostAsync(serverUrl, game).GetAwaiter().GetResult();
+            HttpContent game = JsonContent.Create(serializedGame);
+            client.PostAsync(serverUrl + "/game/migrate", game).GetAwaiter().GetResult();
         }
     }
 }

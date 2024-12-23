@@ -18,7 +18,6 @@ public class RequestsHandler : ControllerBase
     [HttpPost("/game/migrateOrder")]
 	public IActionResult PrepareGame([FromHeader(Name = "Game-Id")] string gameId, [FromBody] MigrateOrderBody orderBody)
 	{
-        System.Console.WriteLine("\n\n\n\n\n");
         threadsInterpreter.sendGameMigration(orderBody.threadId, gameId, orderBody.serverUrl);
 
 		return Ok();

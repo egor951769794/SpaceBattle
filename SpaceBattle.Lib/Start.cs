@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Hwdtech;
 using Hwdtech.Ioc;
@@ -59,7 +56,7 @@ public class Start
 
         var threadsInterpreter = new ShardedThreadsMessagesInterpreter(threadsGames);
 
-        builder.Services.AddSingleton<ShardedThreadsMessagesInterpreter>(threadsInterpreter);
+        builder.Services.AddSingleton(threadsInterpreter);
         builder.Services.AddRazorPages();
 		builder.Services.AddControllers();
 

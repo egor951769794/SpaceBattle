@@ -28,10 +28,11 @@ public class HardStopTests
                 }
 
                 var receiverQueue = new ReceiverAdapter(queue);
+                var externalReceiverQueue = new ReceiverAdapter(queue);
                 var senderQueue = new SenderAdapter(queue);
 
                 IoC.Resolve<Dictionary<int, (ServerThread, SenderAdapter)>>("Threading.ServerThreads")
-                .Add((int)args[0], (new ServerThread(receiverQueue), senderQueue));
+                .Add((int)args[0], (new ServerThread(receiverQueue, externalReceiverQueue), senderQueue));
 
                 IoC.Resolve<Dictionary<int, (ServerThread, SenderAdapter)>>("Threading.ServerThreads")[(int)args[0]].Item1.Start();
 

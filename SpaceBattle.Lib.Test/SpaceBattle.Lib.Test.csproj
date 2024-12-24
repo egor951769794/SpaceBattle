@@ -28,4 +28,8 @@
     <ProjectReference Include="..\SpaceBattle.Lib\SpaceBattle.Lib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SpaceBattle.Endpoint\SpaceBattle.Endpoint.csproj" />
+  </ItemGroup>
+
 </Project>

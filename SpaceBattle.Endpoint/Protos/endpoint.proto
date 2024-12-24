@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option csharp_namespace = "SpaceBattle.Endpoint";
+
+package endpoint;
+
+service Endpoint {
+  rpc EndpointReceiver (EndpointRequest) returns (EndpointReply);
+}
+
+message EndpointRequest {
+  map<string, string> args = 1; 
+}
+
+message EndpointReply {
+  bool status = 1;
+}

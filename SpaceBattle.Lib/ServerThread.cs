@@ -3,12 +3,14 @@ public class ServerThread
 {
     public Thread thread { get; private set; }
     public ReceiverAdapter queue { get; private set; }
+    public ReceiverAdapter externalQueue { get; private set; }
     bool stop = false;
     Action strategy;
     Action finishingStrategy;
-    public ServerThread(ReceiverAdapter queue)
+    public ServerThread(ReceiverAdapter queue, ReceiverAdapter externalQueue)
     {
         this.queue = queue;
+        this.externalQueue = externalQueue;
         strategy = () =>
         {
             _handleCommand();
@@ -34,6 +36,7 @@ public class ServerThread
     }
     internal void _handleCommand()
     {
+        externalQueue.Receive().Execute();
         queue.Receive().Execute();
     }
     internal void _updateBehaviour(Action newBehaviour)

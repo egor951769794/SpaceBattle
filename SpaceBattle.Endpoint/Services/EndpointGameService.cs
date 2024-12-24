@@ -1,6 +1,8 @@
 using Grpc.Core;
+using Hwdtech;
 using SpaceBattle.Lib;
 using IRouter = SpaceBattle.Lib.IRouter;
+using Grpc.Net.Client;
 
 namespace SpaceBattle.Endpoint;
 
@@ -30,6 +32,30 @@ public class EndpointGameService : Endpoint.EndpointBase
         return Task.FromResult(new EndpointReply
         {
             Status = status
+        });
+    }
+
+    public async override Task<TransferReply> Transfer(TransferRequest request, ServerCallContext context)
+    {
+        string gameId = request.GameId;
+        string serializedGame = (string)GameSerializer.Serialize(gameId);
+
+        Client.Client.Call(request.NewServerId, serializedGame);
+
+        return await Task.FromResult(new TransferReply
+        {
+            GameStatus = true
+        });
+    }
+
+    public override Task<LoadReply> Load(LoadRequest request, ServerCallContext context)
+    {
+        string serializedGame = request.SerializedGame;
+        Lib.ICommand newGameCommand = (Lib.ICommand)GameDeserializer.Deserialize(serializedGame);
+        IoC.Resolve<Hwdtech.ICommand>("AddGame", "1", newGameCommand).Execute();
+        return Task.FromResult(new LoadReply
+        {
+            UploadStatus = true
         });
     }
 }

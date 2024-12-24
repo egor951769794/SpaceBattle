@@ -1,4 +1,4 @@
 ignore:
   - "SpaceBattle.Lib.Test"
   - "SpaceBattle.Endpoint"
-  
+  - "SpaceBattle.Client"

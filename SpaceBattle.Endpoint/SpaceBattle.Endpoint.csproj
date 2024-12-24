@@ -12,10 +12,15 @@
 
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.67.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SpaceBattle.Lib\SpaceBattle.Lib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SpaceBattle.Client\SpaceBattle.Client.csproj" />
   </ItemGroup>
 
 </Project>

@@ -19,8 +19,9 @@ public class UpdateBehaviourTests
         queue.Add(cmd);
 
         var ra = new ReceiverAdapter(queue);
+        var era = new ReceiverAdapter(queue);
 
-        var st = new ServerThread(ra);
+        var st = new ServerThread(ra ,era);
 
         var HandleNothing = () => 
         {

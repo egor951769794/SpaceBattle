@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "SpaceBattle.Endpoint": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5109;https://localhost:7153",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

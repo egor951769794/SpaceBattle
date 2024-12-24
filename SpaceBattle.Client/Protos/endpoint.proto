@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option csharp_namespace = "SpaceBattle.Client";
+
+package endpoint;
+
+service Endpoint {
+  rpc EndpointReceiver (EndpointRequest) returns (EndpointReply);
+  rpc Transfer (TransferRequest) returns (TransferReply);
+  rpc Load (LoadRequest) returns (LoadReply);
+}
+
+message LoadRequest{
+  string serializedGame = 1;
+}
+
+message TransferRequest{
+  string gameId = 1;
+  string newServerId = 2;
+}
+
+message LoadReply{
+  bool uploadStatus = 1;
+}
+
+message TransferReply{
+  bool gameStatus = 1;
+}
+
+message EndpointRequest {
+  map<string, string> args = 1; 
+}
+
+message EndpointReply {
+  bool status = 1;
+}
